@@ -1,0 +1,82 @@
+.group {
+    margin-bottom: var(--spacing-xl);
+}
+
+.title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.fieldset {
+    border: none;
+    padding: var(--spacing-md);
+    background-color: var(--color-background);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+    margin: 0;
+}
+
+.fieldset:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.questionText {
+    flex: 1;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+    width: 100%;
+    display: block;
+}
+
+.radioGroup {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.radioOption {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.radioInput {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--color-border-dark);
+    border-radius: 50%;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.radioInput:checked {
+    border-color: var(--color-primary);
+    background: radial-gradient(circle, var(--color-primary) 40%, transparent 40%);
+}
+
+.radioLabel {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+}
+
+.error {
+    font-size: var(--font-size-xs);
+    color: var(--color-danger);
+    margin-bottom: var(--spacing-xs);
+    display: block;
+}

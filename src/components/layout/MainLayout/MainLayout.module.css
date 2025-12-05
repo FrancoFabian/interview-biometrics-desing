@@ -1,0 +1,49 @@
+.appLayout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.appBody {
+    display: flex;
+    flex: 1;
+    padding-top: var(--navbar-height);
+}
+
+/* We need to define these classes so they can be referenced in TSX */
+.withSidebar {
+    /* Marker class */
+}
+
+.noSidebar {
+    /* Marker class */
+}
+
+.mainContent {
+    /* Base styles if any, or just target via parent */
+}
+
+.appBody.withSidebar .mainContent {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: var(--spacing-xl);
+    min-height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+}
+
+.appBody.noSidebar .mainContent {
+    flex: 1;
+    margin-left: 0;
+    padding: var(--spacing-xl);
+    min-height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+
+    .appBody.withSidebar .mainContent,
+    .appBody.noSidebar .mainContent {
+        margin-left: 0;
+        padding: var(--spacing-md);
+    }
+}

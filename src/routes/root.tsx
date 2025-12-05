@@ -1,40 +1,33 @@
-// src/routes/root.tsx
-import { DocumentVerificationTabs, type TabItem } from "../components/document-verification-tabs";
-import { ImageGrid } from "../components/content/image-grid";
-import { TriStateQuestionGroup } from "../components/content/tri-state-question-group";
-import { ExternalLinksRow } from "../components/content/external-links-row";
-import { ResponseForm } from "../components/content/response-form";
-import { SummaryModal } from "../components/content/summary-modal";
+import { CustomTable } from "../components/ui";
+import { Progress } from "../components/ui";
+import { ModernSelect } from "../components/ui";
+import {
+    ImageGrid,
+    TriStateQuestionGroup,
+    ExternalLinksRow,
+    ResponseForm,
+    SummaryModal,
+    DocumentVerificationTabs
+} from "../components/content";
+
 import { useFormState } from "../hooks/use-form-state";
-import { imageLabelsByTab, type QuestionItem, type TabType } from "../types/form-types";
+import { type TabType } from "../types/form-types";
 import { useIsMobile } from "../hooks/use-mobile";
-import { CustomTable, type Column } from "../components/custom-table";
-import { Progress } from "../components/progress";
-import ModernSelect from "../components/modern-select";
+import styles from "./BiometricosPage.module.css";
+import clsx from "clsx";
+import { useState } from "react";
 
-
-// Configuración de Tabs
-const VERIFICATION_TABS: TabItem[] = [
-    { key: "identificacion", label: "Identificación" },
-    { key: "comprobante", label: "Comprobante" },
-    { key: "propiedad", label: "Propiedad" },
-    { key: "contrato", label: "Contrato" },
-    { key: "contacto", label: "Contacto" },
-    { key: "fotografia", label: "Fotografía" },
-];
-
-const photoQuestions: QuestionItem[] = [
-    { id: "color", text: "¿La digitalización de la ID para este folio está a color?" },
-    { id: "match", text: "¿Los datos en ambas ID, expediente y digitalizada coinciden?" },
-];
-
-const searchQuestions: QuestionItem[] = [
-    { id: "vigente", text: "¿La información devuelta por tus consultas es vigente?" },
-    { id: "coincide", text: "¿La información devuelta por las consultas coincide con la identificación del cliente?" },
-];
+import { photoQuestions, searchQuestions } from "../constants/verification/questions";
+import { folioColumns } from "../constants/verification/table-config";
+import { mockFolios } from "../mocks/verification/folios.mock";
+import { mockImages } from "../mocks/verification/images.mock";
+import type { FolioRow } from "../types/verification";
 
 export default function BiometricosPage() {
     const isMobile = useIsMobile();
+    const [uploadedImages, setUploadedImages] = useState<Record<string, string>>({});
+    const [files, setFiles] = useState<Record<string, File>>({});
+
     const {
         formData,
         isSubmitting,
@@ -51,68 +44,71 @@ export default function BiometricosPage() {
         canReset,
     } = useFormState();
 
-    const currentImages = imageLabelsByTab[formData.activeTab].map((label, index) => ({
-        id: `img-${index + 1}`,
-        label,
-    }));
-
-    type Row = {
-        key: string;
-        nombreCliente: string;
-        fechaFolio: string;
-        folioSAC: string;
-        folioMV: string;
-        registrado: string;
-        opciones: string;
-        detalles: string;
+    const handleImageUpload = (id: string, file: File) => {
+        if (file.type !== "image/webp") {
+            alert("Solo se permiten archivos .webp");
+            return;
+        }
+        const url = URL.createObjectURL(file);
+        setUploadedImages(prev => ({ ...prev, [id]: url }));
+        setFiles(prev => ({ ...prev, [id]: file }));
     };
 
-    const columns: Column[] = [
-        { key: "nombreCliente", label: "Nombre de Cliente" },
-        { key: "fechaFolio", label: "Fecha de Folio" },
-        { key: "folioSAC", label: "Folio SAC" },
-        { key: "folioMV", label: "Folio MV" },
-        { key: "registrado", label: "Registrado" },
-        { key: "opciones", label: "Options" },
-        { key: "detalles", label: "Details" },
-    ];
-
-    const rows: Row[] = [
-        {
-            key: "1",
-            nombreCliente: "Jerry Mattedi",
-            fechaFolio: "19 May, 2021 · 10:10 AM",
-            folioSAC: "251-661-5362",
-            folioMV: "12345678",
-            registrado: "Sí",
-            opciones: "Options",
-            detalles: "Details",
-        },
-    ];
-
-    const renderCell = (item: Row, columnKey: string) => {
-        if (columnKey === "opciones" || columnKey === "detalles") {
-            return <a href="#" style={{ color: "var(--color-text-primary)", textDecoration: "underline" }}>{item[columnKey as keyof Row] as string}</a>;
+    const handleConfirmSubmit = () => {
+        const formData = new FormData();
+        if (payload) {
+            formData.append("payload", JSON.stringify(payload));
         }
-        return item[columnKey as keyof Row] as string;
+        Object.entries(files).forEach(([key, file]) => {
+            formData.append(key, file);
+        });
+
+        console.log("Submitting FormData (Multipart):");
+        for (const pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
+        }
+
+        confirmSubmit();
+
+        // Clear form and uploaded images
+        resetForm();
+        setUploadedImages({});
+        setFiles({});
+    };
+
+    const currentImages = mockImages[formData.activeTab].map((mock) => ({
+        id: mock.id,
+        label: mock.name,
+        src: uploadedImages[mock.id] || mock.imageUrl
+    }));
+
+    const renderCell = (item: FolioRow, columnKey: string) => {
+        if (columnKey === "opciones" || columnKey === "detalles") {
+            return <a href="#" style={{ color: "var(--color-text-primary)", textDecoration: "underline" }}>{item[columnKey as keyof FolioRow] as string}</a>;
+        }
+        return item[columnKey as keyof FolioRow] as string;
     };
 
     return (
         <>
-            <section className="content-section" aria-labelledby="content-title" style={isMobile ? { borderRadius: 0, boxShadow: "none", padding: 0, margin: 0, width: "100%" } : undefined}>
-                <header className="content-header content-pad-header">
-                    <h1 id="content-title" className="content-title">Verificación Biométrica</h1>
-                    <p className="content-subtitle">
+            <section
+                className={styles.section}
+                aria-labelledby="content-title"
+                style={isMobile ? { padding: 0 } : undefined}
+            >
+                <header className={clsx(styles.header, styles.padHeader)}>
+                    <h1 id="content-title" className={styles.title}>Verificación Biométrica</h1>
+                    <p className={styles.subtitle}>
                         Complete el formulario de verificación con los datos biométricos del solicitante
                     </p>
                 </header>
-                <div className={`content-pad-container align-right gap-bottom-xl`}>
+                <div className={clsx(styles.padContainer, styles.alignRight, styles.gapBottomXl)}>
                     <Progress value={50} label="Estado del Folio" showValueLabel />
                 </div>
-                <div className="content-pad-container gap-bottom-xl">
-                    <CustomTable columns={columns} rows={rows} ariaLabel="Tabla de folios" renderCell={renderCell} />
+                <div className={clsx(styles.padContainer, styles.gapBottomXl)}>
+                    <CustomTable columns={folioColumns} rows={mockFolios} ariaLabel="Tabla de folios" renderCell={renderCell} />
                 </div>
-                <div className="content-pad-container gap-bottom-xl">
+                <div className={clsx(styles.padContainer, styles.gapBottomXl)}>
                     <ModernSelect
                         items={[
                             { keyId: "credito", label: "Expediente Crédito" },
@@ -125,14 +121,13 @@ export default function BiometricosPage() {
                     />
                 </div>
                 <DocumentVerificationTabs
-                    tabs={VERIFICATION_TABS}
-                    value={formData.activeTab}
-                    onValueChange={(tabKey) => updateField("activeTab", tabKey as TabType)}
+                    activeTab={formData.activeTab}
+                    onTabChange={(tabKey) => updateField("activeTab", tabKey as TabType)}
                 />
 
-                <section className="image-section">
-                    <h2 className="section-title content-pad-section">Tabla de identificación</h2>
-                    <ImageGrid images={currentImages} />
+                <section className={styles.imageSection}>
+                    <h2 className={clsx(styles.sectionTitle, styles.padSection)}>Tabla de identificación</h2>
+                    <ImageGrid images={currentImages} onUpload={handleImageUpload} />
                 </section>
 
                 <TriStateQuestionGroup
@@ -167,7 +162,16 @@ export default function BiometricosPage() {
                 />
             </section>
 
-            <SummaryModal isOpen={showModal} onClose={closeModal} payload={payload} onConfirm={confirmSubmit} />
+
+
+            <SummaryModal
+                key={showModal ? "open" : "closed"}
+                isOpen={showModal}
+                onClose={closeModal}
+                payload={payload}
+                onConfirm={handleConfirmSubmit}
+                images={currentImages}
+            />
         </>
     );
 }

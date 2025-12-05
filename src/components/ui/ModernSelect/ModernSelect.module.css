@@ -1,0 +1,192 @@
+/* =========================================
+   1. Configuración y Mapeo de Tokens
+   ========================================= */
+.wrapper {
+    position: relative;
+    /* Tokens globales → variables locales */
+    --select-bg: var(--color-surface, #ffffff);
+    --select-border: var(--color-border, #e4e4e7);
+    --select-hover: var(--color-surface-hover, #f9fafb);
+    --select-text: var(--color-text-primary, #11181c);
+    --select-text-sub: var(--color-text-secondary, #71717a);
+    --select-primary: var(--color-primary, #006fee);
+    --select-primary-light: var(--color-primary-light, #e6f1fe);
+
+    --select-shadow: var(--shadow-lg);
+    --select-radius: var(--radius-md);
+
+    --select-ease: cubic-bezier(0.65, 0, 0.45, 1);
+    /* Curva suave */
+
+    /* --trigger-width viene del style inline del JSX */
+}
+
+/* =========================================
+   2. Animación del Check "Dibujo a mano"
+   ========================================= */
+@keyframes check-draw {
+    from {
+        stroke-dashoffset: 24;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* =========================================
+   3. El Trigger (Botón)
+   ========================================= */
+.trigger {
+    /* Ancla para CSS Anchor Positioning (si el navegador lo soporta) */
+    /* anchor-name: --select-anchor; */
+
+    width: var(--trigger-width);
+    max-width: var(--trigger-width);
+    background: var(--select-bg);
+    border: 2px solid var(--select-border);
+    border-radius: var(--select-radius);
+    padding: 0.6rem 0.8rem;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--select-text);
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.trigger:hover {
+    border-color: var(--select-text-sub);
+    background-color: var(--select-hover);
+}
+
+.trigger:active {
+    transform: scale(0.98);
+}
+
+.valueText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    text-align: left;
+    display: block;
+}
+
+.chevron {
+    transition: transform 0.3s var(--select-ease);
+    opacity: 0.5;
+    flex-shrink: 0;
+    color: var(--select-text-sub);
+}
+
+/* ✅ Antes: .select-wrapper.open .select-chevron
+   Ahora: usar :popover-open */
+.wrapper:has(.menu:popover-open) .chevron {
+    transform: rotate(180deg);
+}
+
+/* =========================================
+   4. El Menú (Popover API)
+   ========================================= */
+.menu {
+    /* Popover en top layer, anclado al trigger si el navegador soporta anchors */
+    position: absolute;
+    position: fixed;
+
+    border: 1px solid var(--select-border);
+    padding: 4px;
+    margin: 0;
+    background: var(--select-bg);
+    border-radius: var(--select-radius);
+    box-shadow: var(--select-shadow);
+    color: var(--select-text);
+    overflow: hidden;
+    margin-top: 0;
+    inset: auto;
+    /* Estado inicial para animación */
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+
+    transition:
+        opacity 0.2s ease-out,
+        transform 0.2s var(--select-ease),
+        display 0.2s allow-discrete,
+        overlay 0.2s allow-discrete;
+}
+
+/* El navegador añade :popover-open cuando está visible */
+.menu:popover-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+@starting-style {
+    .menu:popover-open {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+}
+
+/* =========================================
+   5. Items del Menú & Check Icon
+   ========================================= */
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    transition: background 0.2s;
+    user-select: none;
+    font-family: var(--font-sans);
+    color: var(--select-text);
+}
+
+.item:hover {
+    background-color: var(--select-hover);
+}
+
+.item[data-selected="true"] {
+    background-color: var(--select-primary-light);
+    color: var(--select-primary);
+    font-weight: 600;
+}
+
+/* Estilos del icono */
+.checkIcon {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 0;
+    flex-shrink: 0;
+    color: var(--select-primary);
+    opacity: 1;
+}
+
+/* Animación del check solo cuando tiene la clase */
+.checkIcon.animateIn {
+    animation: check-draw 0.3s var(--select-ease) forwards;
+}
+
+/* Label del item */
+.label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 8px;
+    flex: 1;
+}

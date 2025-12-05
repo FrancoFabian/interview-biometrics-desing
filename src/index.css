@@ -1,11 +1,3 @@
-@import "./styles/content.css";
-@import "./styles/layout.css";
-@import "./styles/navbar.css";
-@import "./styles/sidebar.css";
-@import "./styles/modal.css";
-@import "./styles/toast.css";
-@import "./styles/tri-state-question-group.css";
-
 :root {
 
 
@@ -101,29 +93,31 @@
     --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     --select-ease: cubic-bezier(0.65, 0, 0.45, 1);
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --row-bg-color: #f7fafd;
+    --group-bg-color: #ffffff;
 }
 
 /* Modo Oscuro */
 .dark {
     /* Colores Semánticos (Modo Oscuro) */
-    --color-background: #000000;
-    --color-surface: #18181b;
+    --color-background: #17171a;
+    --color-surface: #17171a;
     --color-surface-hover: #27272a;
     --color-foreground: #ecedee;
 
     --color-text-primary: #ecedee;
     --color-text-secondary: #a1a1aa;
     --color-text-muted: #71717a;
-
+    --row-bg-color: #191a1c;
     --color-border: #27272a;
     --color-border-dark: #3f3f46;
-
+    --group-bg-color: #17171a;
     --color-primary-light: rgba(0, 111, 238, 0.2);
 
     /* Variables de compatibilidad shadcn (Dark) */
-    --btn-dark-disabled:oklch(0.2595 0.0063 258.36);
-    --btn-dark-hover:oklch(0.2559 0.004 264.5);
-    --btn-dark-foreground:oklch(23.801% 0.00489 248.164);
+    --btn-dark-disabled: oklch(0.2595 0.0063 258.36);
+    --btn-dark-hover: oklch(0.2559 0.004 264.5);
+    --btn-dark-foreground: oklch(23.801% 0.00489 248.164);
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -143,7 +137,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 212 100% 47%;
-
+    --shadow-lg: 0 1px 10px 0 rgba(35, 36, 40, 0.477);
     color-scheme: dark;
 }
 

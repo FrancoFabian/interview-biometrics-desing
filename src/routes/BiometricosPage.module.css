@@ -1,0 +1,91 @@
+/* Page Layout Styles extracted from content.css */
+
+.section {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    width: 100%;
+}
+
+.header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.imageSection {
+    /* Might be redundant if just spacing */
+    margin-bottom: var(--spacing-xl);
+}
+
+.sectionTitle {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+/* Utilities / Padding Helpers */
+/* Using more semantic names where possible */
+
+.padHeader {
+    padding: 20px 30px 0 30px;
+}
+
+.padSection {
+    padding: 20px 30px 20px 30px;
+}
+
+.padContainer {
+    padding: 20px 30px;
+}
+
+.alignRight {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.gapBottomLg {
+    margin-bottom: var(--spacing-lg);
+}
+
+.gapBottomXl {
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Mobile Adaptation */
+@media (max-width: 768px) {
+    .section {
+        border-radius: 0;
+        box-shadow: none;
+        padding: 0 !important;
+        margin: 0;
+    }
+
+    .padHeader {
+        padding: 12px 16px 0 16px;
+    }
+
+    .padSection {
+        padding: 12px 16px 12px 16px;
+    }
+
+    .padContainer {
+        padding: 0 16px;
+    }
+}

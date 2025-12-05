@@ -1,0 +1,78 @@
+/* ThemeToggle.module.css */
+/* Styles for the theme toggle button */
+
+.toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: var(--color-bg-tertiary);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.thumb {
+    position: absolute;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-bg-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.isDark .thumb {
+    transform: translateX(28px);
+    background-color: #FFFFFF;
+}
+
+.isLight .thumb {
+    background-color: #000000;
+}
+
+.icon {
+    position: absolute;
+    right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    transition: all 0.3s ease;
+}
+
+.isDark .icon {
+    right: auto;
+    left: 6px;
+    color: #FFFFFF;
+}
+
+.isDark .icon svg {
+    fill: #FFFFFF;
+}
+
+.isLight {
+    background: #e5e7eb;
+}
+
+.isDark {
+    background-color: #333333;
+}

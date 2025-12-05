@@ -1,0 +1,115 @@
+.custom-table-wrapper {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: var(--font-sans);
+}
+
+/* --- Header Styles --- */
+.custom-table thead {
+  background-color: var(--color-background); /* Gris claro para diferenciar */
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dark .custom-table thead {
+  background-color: #262626;
+}
+
+.custom-table th {
+  padding: var(--spacing-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* --- Body Styles --- */
+.custom-table tbody tr {
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Eliminamos el borde del último elemento para que no choque con el contenedor */
+.custom-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.custom-table td {
+  padding: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+
+/* --- Estados Semánticos (opcional para la columna status) --- */
+/* Esto imita los "Chips" de HeroUI usando CSS puro */
+.status-badge {
+  display: inline-flex;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-full, 9999px);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-active {
+  background-color: var(--color-success);
+  color: #fff; /* Texto blanco para contraste en success */
+  background-color: color-mix(in srgb, var(--color-success), transparent 80%);
+  color: var(--color-success);
+}
+
+.status-paused {
+  background-color: color-mix(in srgb, var(--color-danger), transparent 80%);
+  color: var(--color-danger);
+}
+
+.status-vacation {
+  background-color: color-mix(in srgb, var(--color-warning), transparent 80%);
+  color: var(--color-warning);
+}
+
+@media (max-width: 768px) {
+  .custom-table-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-text-muted), transparent 60%) transparent;
+  }
+
+  .custom-table {
+    min-width: 840px;
+  }
+
+  .custom-table-wrapper::-webkit-scrollbar {
+    height: 8px;
+  }
+  .custom-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-table-wrapper::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-text-muted), transparent 60%);
+    border-radius: 999px;
+  }
+  .custom-table-wrapper:hover::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-text-muted), transparent 40%);
+  }
+}

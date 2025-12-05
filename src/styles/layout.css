@@ -1,0 +1,35 @@
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app-body {
+    display: flex;
+    flex: 1;
+    padding-top: var(--navbar-height);
+}
+
+.app-body.with-sidebar .main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: var(--spacing-xl);
+    min-height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+}
+
+.app-body.no-sidebar .main-content {
+    flex: 1;
+    margin-left: 0;
+    padding: var(--spacing-xl);
+    min-height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .app-body.with-sidebar .main-content,
+    .app-body.no-sidebar .main-content {
+        margin-left: 0;
+        padding: var(--spacing-md);
+    }
+}

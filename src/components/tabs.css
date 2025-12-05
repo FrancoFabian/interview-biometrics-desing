@@ -1,0 +1,228 @@
+/* Estilos para PureSharedTabsLayout */
+.tabs-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+    /* Asegura que tome el tema actual */
+    color: var(--color-text-primary);
+}
+
+.tabs-scroll-btn {
+    flex-shrink: 0;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    padding: 0;
+}
+
+.tabs-scroll-btn:hover:not(:disabled) {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-dark);
+}
+
+.tabs-scroll-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+    border-color: var(--color-border);
+}
+
+.tabs-list-viewport {
+    position: relative;
+    flex-grow: 1;
+    overflow: hidden;
+    /* Oculta la barra de scroll nativa */
+    border-radius: var(--radius-lg);
+    /* Para permitir scroll suave via JS */
+    scroll-behavior: smooth;
+}
+
+/* Contenedor interno (Track) */
+.tabs-list-track {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: max-content;
+    /* Permite que crezca horizontalmente */
+    min-width: 100%;
+    padding: 4px;
+    box-sizing: border-box;
+    list-style: none;
+    margin: 0;
+}
+
+/* Variantes de Contenedor (Track) */
+.tabs-track-solid {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 4px;
+    /* Ensure padding for floating cursor */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    /* Subtle depth */
+}
+
+.tabs-track-bordered {
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.tabs-track-underlined,
+.tabs-track-light {
+    background-color: transparent;
+    padding: 0 0 4px 0;
+    /* Espacio para la linea inferior */
+    border: none;
+}
+
+.tabs-track-underlined {
+    border-bottom: 2px solid var(--color-border);
+}
+
+/* Item de Tab */
+.tab-item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    height: 32px;
+    /* Altura base */
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.15s ease, font-weight 0.1s ease;
+    white-space: nowrap;
+    border-radius: var(--radius-sm);
+    user-select: none;
+    outline: none;
+}
+
+.tab-item:hover:not(:disabled) {
+    color: var(--color-text-primary);
+}
+
+.tab-item[data-selected="true"] {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.tab-item:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tab-item:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+/* Cursor (Indicador animado) */
+.tab-cursor {
+    position: absolute;
+    /* top/bottom/left se setean dinamicamente o por variante */
+    z-index: 0;
+    pointer-events: none;
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), width 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* Estilos específicos para variants del cursor */
+.tabs-cursor-solid {
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-hover);
+    /* Or a slightly darker shade/main color if preferred */
+    background-color: #f4f4f5;
+    /* Fallback specialized for light mode elegance if variable is too white */
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+    /* Elegant lift */
+}
+
+/* En light mode, a veces queremos que el cursor sea blanco si el track es gris, o viceversa. 
+   Asumimos track blanco (surface). Cursor gris muy claro o un pop de color sutil.
+*/
+
+.tabs-cursor-bordered {
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    /* El transform mueve esto */
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-hover);
+    box-shadow: var(--shadow-sm);
+}
+
+/* En variante solid, a veces queremos un color de fondo más fuerte o blanco en dark mode */
+.dark .tabs-cursor-solid {
+    background-color: var(--color-surface-hover);
+    box-shadow: none;
+}
+
+.tabs-cursor-light {
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-hover);
+    /* Fondo sutil al hover/active */
+}
+
+.tabs-cursor-underlined {
+    bottom: -2px;
+    /* Superpone el borde del track */
+    left: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+}
+
+/* Colores del cursor/texto activo según prop color */
+.tabs-color-primary .tab-item[data-selected="true"] {
+    color: var(--color-primary);
+}
+
+.tabs-color-primary .tabs-cursor-underlined {
+    background-color: var(--color-primary);
+}
+
+.tabs-color-secondary .tab-item[data-selected="true"] {
+    color: var(--color-secondary);
+}
+
+.tabs-color-secondary .tabs-cursor-underlined {
+    background-color: var(--color-secondary);
+}
+
+/* Badge contador */
+.tabs-counter-badge {
+    flex-shrink: 0;
+    height: 28px;
+    padding: 0 var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}

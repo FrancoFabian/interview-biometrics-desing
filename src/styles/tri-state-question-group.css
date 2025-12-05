@@ -1,0 +1,214 @@
+.tri-group {
+    margin-block: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.tri-group__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-sm);
+}
+
+.tri-group__title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.tri-group__columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+.tri-group__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.tri-row {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr);
+    align-items: center;
+    gap: var(--spacing-md);
+    padding-block: 0.6rem;
+    padding-inline: var(--spacing-md);
+    border-radius: var(--radius-md);
+    background-color: var(--color-selected-row);
+}
+
+.dark .tri-row {
+    background-color: var(--color-surface-hover);
+}
+
+.tri-row__label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+}
+
+.tri-row__options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.tri-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding-block: 0.35rem;
+    padding-inline: 0.75rem;
+    border-radius: 999px;
+    border: none;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color 120ms ease, color 120ms ease;
+}
+
+.tri-option:hover {
+    background-color: var(--color-option-hover);
+}
+
+.dark .tri-option:hover {
+    background-color: #2D3748;
+    color: var(--color-text-primary);
+}
+
+.tri-option span {
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Focus accesible sobre la pill */
+.tri-option:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Estados seleccionados por tipo */
+.tri-option--yes.tri-option--selected {
+    background-color: var(--color-success);
+    color: white;
+    font-weight: 600;
+}
+
+.tri-option--yes.tri-option--selected:hover {
+    background-color: color-mix(in srgb, var(--color-success) 85%, black);
+}
+
+.tri-option--no.tri-option--selected {
+    background-color: var(--color-danger);
+    color: white;
+    font-weight: 600;
+}
+
+.tri-option--no.tri-option--selected:hover {
+    background-color: color-mix(in srgb, var(--color-danger) 85%, black);
+}
+
+.tri-option--na.tri-option--selected {
+    background-color: var(--color-warning);
+    color: white;
+    font-weight: 600;
+}
+
+/* Dark mode: pills con tinte con opacidad y texto con color pleno */
+.dark .tri-option--yes.tri-option--selected {
+    background-color: color-mix(in srgb, var(--color-success), transparent 80%);
+    color: var(--color-success);
+}
+
+.dark .tri-option--no.tri-option--selected {
+    background-color: color-mix(in srgb, var(--color-danger), transparent 80%);
+    color: var(--color-danger);
+}
+
+.dark .tri-option--na.tri-option--selected {
+    background-color: color-mix(in srgb, var(--color-warning), transparent 80%);
+    color: var(--color-warning);
+}
+
+.tri-option--na.tri-option--selected:hover {
+    background-color: color-mix(in srgb, var(--color-warning) 85%, black);
+}
+
+.tri-group__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--spacing-sm);
+}
+
+.tri-group__clear-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 120ms ease;
+}
+
+.tri-group__clear-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: auto;
+}
+
+.tri-group__clear-btn:hover {
+    background-color: var(--btn-dark-foreground);
+    border: none;
+    color: var(--color-text-primary);
+}
+.dark .tri-group__clear-btn {
+    background-color: var(--btn-dark-foreground);
+    border: none;
+}
+.dark .tri-group__clear-btn:hover {
+    background-color: var(--btn-dark-hover);
+}
+
+.dark .tri-group__clear-btn:disabled {
+    background-color: var(--btn-dark-disabled);
+    opacity: 0.7;
+}
+
+.tri-group__clear-btn:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+    .tri-group__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tri-row {
+        grid-template-columns: 1fr;
+        align-items: flex-start;
+    }
+
+    .tri-group__columns {
+        align-self: stretch;
+    }
+}
